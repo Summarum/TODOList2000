@@ -11,7 +11,7 @@
         <ListBox x:Name="stackp_main" Margin="10,45,10,10"/>
 
         <DatePicker x:Name="dp_main" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btn_save" Content="Save" HorizontalAlignment="Left" Margin="694,4,0,0" VerticalAlignment="Top" Width="75" Height="36"/>
+        <Button x:Name="btn_save" Content="Save" HorizontalAlignment="Left" Margin="731,4,0,0" VerticalAlignment="Top" Width="75" Height="36"/>
 
 
     </Grid>

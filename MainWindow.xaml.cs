@@ -50,11 +50,11 @@ namespace TODOList2000
 
         public void addNewRow() { 
             StackPanel tempSP = new StackPanel();
-            RadioButton tempRadio = new RadioButton();
+            CheckBox tempRadio = new CheckBox();
             TextBlock tempTB = new TextBlock();
 
 
-            
+            tempRadio.Margin = new Thickness(6, 45, 0, 0);
 
             tempSP.Width = 760;
             tempSP.Height = 100;
@@ -62,12 +62,19 @@ namespace TODOList2000
             tempSP.HorizontalAlignment = HorizontalAlignment.Stretch;
             tempSP.Background = new SolidColorBrush(Colors.DarkGray);
             
-            tempTB.Background= new SolidColorBrush(Colors.Gray);
-            tempTB.Width = 650;
+            tempTB.Background = new SolidColorBrush(Colors.Gray);
+            tempTB.Width = 730;
             tempSP.Children.Add(tempTB);
             tempSP.Children.Add(tempRadio);
             
             stackp_main.Items.Add(tempSP);
+            
+            
+        }
+
+        public void listClick(Object sender, EventArgs args) { 
+        
+        
         }
     }
 }
