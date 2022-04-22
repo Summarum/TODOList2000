@@ -22,7 +22,52 @@ namespace TODOList2000
     {
         public MainWindow()
         {
+            
             InitializeComponent();
+            
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+        }
+
+
+        public void addNewRow() { 
+            StackPanel tempSP = new StackPanel();
+            RadioButton tempRadio = new RadioButton();
+            TextBlock tempTB = new TextBlock();
+
+
+            
+
+            tempSP.Width = 760;
+            tempSP.Height = 100;
+            tempSP.Orientation = Orientation.Horizontal;
+            tempSP.HorizontalAlignment = HorizontalAlignment.Stretch;
+            tempSP.Background = new SolidColorBrush(Colors.DarkGray);
+            
+            tempTB.Background= new SolidColorBrush(Colors.Gray);
+            tempTB.Width = 650;
+            tempSP.Children.Add(tempTB);
+            tempSP.Children.Add(tempRadio);
+            
+            stackp_main.Items.Add(tempSP);
         }
     }
 }
