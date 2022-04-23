@@ -10,18 +10,19 @@ namespace TODOList2000
 {
     internal class FileReader
     {
-        public string[] readFile(string fileName) {
-            string[] lines = System.IO.File.ReadAllLines(fileName);
+        public List<ModelData> readFile(string fileName) {
+            List<ModelData> tempList = new List<ModelData>();
+            string lines = System.IO.File.ReadAllText(fileName);
+            tempList = JsonSerializer.Deserialize<List<ModelData>>(lines);
 
-
-            return lines;
+            return tempList;
         }
-        public void saveTodoList(List<ModelData> list) {
-            string jsonser = JsonSerializer.Serialize(list);
+
+        public void saveTodoList(List<ModelData> list,string fileName) {
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonser = JsonSerializer.Serialize(list,options);
             ModelData tempData = new ModelData();
-            File.WriteAllText("file.txt", jsonser);
-
-
+            File.WriteAllText(fileName, jsonser);
 
         }
 
@@ -34,7 +35,7 @@ namespace TODOList2000
             tempData.TodoID.Add(0);
             tempData.TodoID.Add(1);
             tempData.TodoText.Add("first one");
-            tempData.TodoText.Add("secondone");
+            tempData.TodoText.Add("test with śćż");
             tempList.Add(tempData);
 
             tempData = new ModelData();
@@ -50,19 +51,7 @@ namespace TODOList2000
 
         }
 
-        public List<ModelData> buildTodoList(string[] lines) { 
-            List <ModelData> tempList = new List<ModelData>();
-            ModelData tempData;
 
-            for (int i = 0; i < lines.Length; i++) {
-                
-
-
-
-            }
-        
-           return tempList;
-        }
 
 
 

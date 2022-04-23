@@ -23,49 +23,101 @@ namespace TODOList2000
     {
         private List<ModelData> modelData;
         private ModelData todayData;
-        
+        private CheckBox[] boxes;
+        private DateTime? lastDatePicked;
+        FileReader fr;
         public MainWindow()
         {
             
             modelData = new List<ModelData>();
-            addNewDay();
+            
+
             InitializeComponent();
-            FileReader fr = new FileReader();
+             fr = new FileReader();
+    
+            modelData = fr.readFile("file.txt");
+           // fr.testtodofun();
+
+
             
-            fr.testtodofun();
             dp_main.SelectedDate = DateTime.Now;
-            
+            //dp_main.SelectedDate.Value.AddDays(-1);
+            //buildTodoUiList();
+
             //Trace.WriteLine(DateTime.Now.ToString("d/M/yyyy"));
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
+            //addNewRow();
             
 
         }
-        public void addNewDay() {
-            
-            todayData = new ModelData();
+
+        public void buildTodoUiList()
+        {
+            if (modelData.Count > 0)
+            {
+                ModelData foundModel = modelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
+                if (foundModel != null)
+                {
+                    boxes = new CheckBox[foundModel.IsChecked.Count];
+                    for (int i = 0; i < foundModel.TodoID.Count; i++)
+                    {
+
+                        StackPanel tempSP = new StackPanel();
+                        CheckBox tempCB = new CheckBox();
+                        TextBlock tempTB = new TextBlock();
+                        boxes.Append(tempCB);
+
+                        tempTB.Background = new SolidColorBrush(Colors.Gray);
+                        tempTB.Width = 730;
+                        tempTB.Text = foundModel.TodoText[i];
+                        tempTB.Uid = ""+i;
+
+                        tempCB.Margin = new Thickness(6, 45, 0, 0);
+                        tempCB.Click += new RoutedEventHandler(checked_changed);
+                        tempCB.IsChecked = foundModel.IsChecked[i];
+                        tempCB.Uid = ""+i;
+                        
+
+                        tempSP.Width = 760;
+                        tempSP.Height = 100;
+                        tempSP.Orientation = Orientation.Horizontal;
+                        tempSP.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        tempSP.Background = new SolidColorBrush(Colors.DarkGray);
+                        tempSP.Uid = "" + i;
+
+                        tempSP.Children.Add(tempTB);
+                        tempSP.Children.Add(tempCB);
+
+                        stackp_main.Items.Add(tempSP);
+
+                    }
 
 
+                }
+
+
+
+            }
         }
-        
+
         public void addNewRow() { 
             StackPanel tempSP = new StackPanel();
             CheckBox tempCB = new CheckBox();
@@ -76,7 +128,7 @@ namespace TODOList2000
 
             tempCB.Margin = new Thickness(6, 45, 0, 0);
             tempCB.Click += new RoutedEventHandler(checked_changed);
-            tempCB.IsChecked = false;
+            //tempCB.IsChecked = modelData.;
 
 
             tempSP.Width = 760;
@@ -102,11 +154,7 @@ namespace TODOList2000
             
             
         }
-        private void listAdd() { 
-        
-        
-        
-        }
+     
 
         public void checked_changed(Object sender, EventArgs args) {
             CheckBox tmpCB = (CheckBox)sender;
@@ -114,6 +162,22 @@ namespace TODOList2000
             Trace.WriteLine("test: "+tmpCB.Uid.ToString());
         }
 
-        
+        private void btn_save_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            fr.saveTodoList(modelData,"file.txt");
+        }
+
+
+        private void dp_changedSelectedDate(object sender, RoutedEventArgs e)
+        {
+            if (!(lastDatePicked == dp_main.SelectedDate)) {
+                lastDatePicked = dp_main.SelectedDate;
+                Trace.WriteLine(dp_main.SelectedDate.ToString());
+                stackp_main.Items.Clear();
+                buildTodoUiList();
+
+            }
+            
+        }
     }
 }
