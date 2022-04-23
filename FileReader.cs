@@ -17,7 +17,13 @@ namespace TODOList2000
 
         public List<ModelData> buildTodoList(string[] lines) { 
             List <ModelData> tempList = new List<ModelData>();
+            ModelData tempData;
+
+            for (int i = 0; i < lines.Length; i++) { 
+                
             
+            
+            }
         
            return tempList;
         }

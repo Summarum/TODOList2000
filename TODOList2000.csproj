@@ -8,4 +8,8 @@
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="6.0.3" />
+  </ItemGroup>
+
 </Project>
