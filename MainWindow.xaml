@@ -10,7 +10,7 @@
 
         <ListBox x:Name="stackp_main" Margin="10,45,10,10"/>
 
-        <DatePicker x:Name="dp_main" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="dp_main" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FirstDayOfWeek="Monday"/>
         <Button x:Name="btn_save" Content="Save" HorizontalAlignment="Left" Margin="731,4,0,0" VerticalAlignment="Top" Width="75" Height="36"/>
 
 

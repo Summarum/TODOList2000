@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,41 +21,58 @@ namespace TODOList2000
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<ModelData> modelData;
+        private ModelData todayData;
+        
         public MainWindow()
         {
             
+            modelData = new List<ModelData>();
+            addNewDay();
             InitializeComponent();
+            dp_main.SelectedDate = DateTime.Now;
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
+            addNewRow();
             
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
-            addNewRow();
+
         }
+        public void addNewDay() {
+            
+            todayData = new ModelData();
 
 
+        }
+        
         public void addNewRow() { 
             StackPanel tempSP = new StackPanel();
-            CheckBox tempRadio = new CheckBox();
+            CheckBox tempCB = new CheckBox();
             TextBlock tempTB = new TextBlock();
 
+            ModelData tempModel = new ModelData();
+            
 
-            tempRadio.Margin = new Thickness(6, 45, 0, 0);
+            tempCB.Margin = new Thickness(6, 45, 0, 0);
+            tempCB.Click += new RoutedEventHandler(checked_changed);
+            tempCB.IsChecked = false;
+
 
             tempSP.Width = 760;
             tempSP.Height = 100;
@@ -65,16 +83,32 @@ namespace TODOList2000
             tempTB.Background = new SolidColorBrush(Colors.Gray);
             tempTB.Width = 730;
             tempSP.Children.Add(tempTB);
-            tempSP.Children.Add(tempRadio);
+            tempSP.Children.Add(tempCB);
+
+            //todayData.TodoText.Add("cos do zrobienia");
+            //todayData.TodoDate = DateOnly.FromDateTime((DateTime)dp_main.SelectedDate);
+            //todayData.IsChecked.Add((bool)tempCB.IsChecked);
+
+
+
+
+           
             
-            stackp_main.Items.Add(tempSP);
             
             
+        }
+        private void listAdd() { 
+        
+        
+        
         }
 
-        public void listClick(Object sender, EventArgs args) { 
-        
-        
+        public void checked_changed(Object sender, EventArgs args) {
+            CheckBox tmpCB = (CheckBox)sender;
+            
+            Trace.WriteLine("test: "+tmpCB.Uid.ToString());
         }
+
+        
     }
 }
