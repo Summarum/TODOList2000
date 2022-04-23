@@ -30,7 +30,12 @@ namespace TODOList2000
             modelData = new List<ModelData>();
             addNewDay();
             InitializeComponent();
+            FileReader fr = new FileReader();
+            
+            fr.testtodofun();
             dp_main.SelectedDate = DateTime.Now;
+            
+            //Trace.WriteLine(DateTime.Now.ToString("d/M/yyyy"));
             addNewRow();
             addNewRow();
             addNewRow();
