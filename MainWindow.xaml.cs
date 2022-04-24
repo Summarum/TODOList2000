@@ -26,15 +26,21 @@ namespace TODOList2000
         private CheckBox[] boxes;
         private DateTime? lastDatePicked;
         FileReader fr;
+
+        internal List<ModelData> ModelData { get => modelData; set => modelData = value; }
+        internal ModelData TodayData { get => todayData; set => todayData = value; }
+        public CheckBox[] Boxes { get => boxes; set => boxes = value; }
+        public DateTime? LastDatePicked { get => lastDatePicked; set => lastDatePicked = value; }
+
         public MainWindow()
         {
 
-            modelData = new List<ModelData>();
+            ModelData = new List<ModelData>();
 
             InitializeComponent();
             fr = new FileReader();
 
-            modelData = fr.readFile("file.txt");
+            ModelData = fr.readFile("file.txt");
             // fr.testtodofun();
 
 
@@ -50,12 +56,12 @@ namespace TODOList2000
 
         public void buildTodoUiList()
         {
-            if (modelData.Count > 0)
+            if (ModelData.Count > 0)
             {
-                ModelData foundModel = modelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
+                ModelData foundModel = ModelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
                 if (foundModel != null)
                 {
-                    boxes = new CheckBox[foundModel.IsChecked.Count];
+                    Boxes = new CheckBox[foundModel.IsChecked.Count];
                     for (int i = 0; i < foundModel.TodoID.Count; i++)
                     {
 
@@ -64,18 +70,14 @@ namespace TODOList2000
                         TextBlock tempTB = new TextBlock();
                         Button remBtn = new Button();
 
-                        boxes.Append(tempCB);
+                        Boxes.Append(tempCB);
 
                         tempTB.Background = new SolidColorBrush(Colors.Gray);
                         tempTB.Width = 765;
                         tempTB.Text = foundModel.TodoText[i];
                         tempTB.Uid = "" + i;
 
-                        //remBtn.Background = new SolidColorBrush(Colors.Red);
-                        //remBtn.Width = 25;
-                        //remBtn.Height = 25;
-                        //remBtn.Uid = "" + i;
-                        //remBtn.Content = "X";
+                        
 
 
                         tempCB.Margin = new Thickness(6, 45, 15, 0);
@@ -150,21 +152,25 @@ namespace TODOList2000
         public void checked_changed(Object sender, EventArgs args)
         {
             CheckBox tmpCB = (CheckBox)sender;
+            ModelData foundModel = ModelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
+            if(foundModel != null)
+            {
+                foundModel.IsChecked[int.Parse(tmpCB.Uid)] = (bool)tmpCB.IsChecked;
 
-            Trace.WriteLine("test: " + tmpCB.Uid.ToString());
+
+            }
+
+            //Trace.WriteLine("test: " + tempStack.Children[1].ToString());
         }
 
-        private void btn_save_Copy_Click(object sender, RoutedEventArgs e)
-        {
-            fr.saveTodoList(modelData, "file.txt");
-        }
+        
 
 
         private void dp_changedSelectedDate(object sender, RoutedEventArgs e)
         {
-            if (!(lastDatePicked == dp_main.SelectedDate))
+            if (!(LastDatePicked == dp_main.SelectedDate))
             {
-                lastDatePicked = dp_main.SelectedDate;
+                LastDatePicked = dp_main.SelectedDate;
                 Trace.WriteLine(dp_main.SelectedDate.ToString());
                 stackp_main.Items.Clear();
                 buildTodoUiList();
@@ -178,7 +184,7 @@ namespace TODOList2000
             if (stackp_main.SelectedItem != null)
             {
                 StackPanel tempStack = (StackPanel)stackp_main.SelectedItem;
-                ModelData foundModel = modelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
+                ModelData foundModel = ModelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
                 if (foundModel != null)
                 {
                     
@@ -192,6 +198,25 @@ namespace TODOList2000
 
 
             }
+        }
+
+        private void btn_save_click(object sender, RoutedEventArgs e)
+        {
+            fr.saveTodoList(ModelData, "file.txt");
+        }
+
+       
+
+       
+
+        private void btn_add_todo_click(object sender, RoutedEventArgs e)
+        {   
+            TodoAddWindow todoAddWindow = new TodoAddWindow(this);
+            todoAddWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            todoAddWindow.ShowDialog();
+            stackp_main.Items.Clear();
+            buildTodoUiList();
         }
     }
 }
