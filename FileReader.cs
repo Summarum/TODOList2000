@@ -25,36 +25,5 @@ namespace TODOList2000
             File.WriteAllText(fileName, jsonser);
 
         }
-
-        public void testtodofun() {
-            List<ModelData> tempList = new List<ModelData>();
-            ModelData tempData = new ModelData();
-            tempData.TodoDate = DateTime.Now;
-            tempData.IsChecked.Add(false);
-            tempData.IsChecked.Add(false);
-            tempData.TodoID.Add(0);
-            tempData.TodoID.Add(1);
-            tempData.TodoText.Add("first one");
-            tempData.TodoText.Add("test with śćż");
-            tempList.Add(tempData);
-
-            tempData = new ModelData();
-            tempData.TodoDate = DateTime.Now;
-            tempData.IsChecked.Add(false);
-            tempData.IsChecked.Add(false);
-            tempData.TodoID.Add(2);
-            tempData.TodoID.Add(3);
-            tempData.TodoText.Add("third one");
-            tempData.TodoText.Add("fourth");
-            tempList.Add(tempData);
-            saveTodoList(tempList,"file.txt");
-
-        }
-
-
-
-
-
-
     }
 }
