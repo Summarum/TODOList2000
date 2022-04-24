@@ -16,9 +16,13 @@ using System.Windows.Shapes;
 
 namespace TODOList2000
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /**
+     * modelData contains loaded list of tasks
+     * todayData is instance of single day that contains tasks for it; not used anymore to scrap
+     * boxes is basically list of Checkboxes visible in the window
+     * lastDatePicked - like name indicates, it's saving the last picked date; used for bug that occured at init
+     * fr - instance of helper class for file I/O
+     */
     public partial class MainWindow : Window
     {
         private List<ModelData> modelData;
@@ -37,13 +41,14 @@ namespace TODOList2000
             ModelData = new List<ModelData>();
 
             InitializeComponent();
-
+            //loading data from file; setting default date for datapicker
             fr = new FileReader();
             ModelData = fr.readFile("file.txt");
             dp_main.SelectedDate = DateTime.Now;
 
         }
 
+        //building visible TODO list using data previously loaded // also used for reloading in case new TODOs are added
         public void buildTodoUiList()
         {
             if (ModelData.Count > 0)
@@ -90,6 +95,7 @@ namespace TODOList2000
             }
         }
 
+        //checking if user clicked on checkbox
         public void checked_changed(Object sender, EventArgs args)
         {
             CheckBox tmpCB = (CheckBox)sender;
@@ -100,6 +106,7 @@ namespace TODOList2000
             }
         }
 
+        //when date is changed - reload the visible tasks for said day
         private void dp_changedSelectedDate(object sender, RoutedEventArgs e)
         {
             if (!(LastDatePicked == dp_main.SelectedDate))
@@ -111,6 +118,7 @@ namespace TODOList2000
             }
         }
 
+        //removing TODOs
         private void btn_rem_click(object sender, RoutedEventArgs e)
         {
             if (stackp_main.SelectedItem != null)
@@ -128,12 +136,13 @@ namespace TODOList2000
             }
         }
 
+        //saving TODOs to file
         private void btn_save_click(object sender, RoutedEventArgs e)
         {
             fr.saveTodoList(ModelData, "file.txt");
         }
 
-
+        //adding new TODO through new window form
         private void btn_add_todo_click(object sender, RoutedEventArgs e)
         {   
             TodoAddWindow todoAddWindow = new TodoAddWindow(this);
