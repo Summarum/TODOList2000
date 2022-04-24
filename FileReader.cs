@@ -47,7 +47,7 @@ namespace TODOList2000
             tempData.TodoText.Add("third one");
             tempData.TodoText.Add("fourth");
             tempList.Add(tempData);
-            saveTodoList(tempList);
+            saveTodoList(tempList,"file.txt");
 
         }
 

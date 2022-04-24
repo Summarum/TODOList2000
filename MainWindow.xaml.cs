@@ -28,44 +28,23 @@ namespace TODOList2000
         FileReader fr;
         public MainWindow()
         {
-            
+
             modelData = new List<ModelData>();
-            
 
             InitializeComponent();
-             fr = new FileReader();
-    
+            fr = new FileReader();
+
             modelData = fr.readFile("file.txt");
-           // fr.testtodofun();
+            // fr.testtodofun();
 
 
-            
+
             dp_main.SelectedDate = DateTime.Now;
             //dp_main.SelectedDate.Value.AddDays(-1);
             //buildTodoUiList();
 
             //Trace.WriteLine(DateTime.Now.ToString("d/M/yyyy"));
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            //addNewRow();
-            
+
 
         }
 
@@ -83,20 +62,30 @@ namespace TODOList2000
                         StackPanel tempSP = new StackPanel();
                         CheckBox tempCB = new CheckBox();
                         TextBlock tempTB = new TextBlock();
+                        Button remBtn = new Button();
+
                         boxes.Append(tempCB);
 
                         tempTB.Background = new SolidColorBrush(Colors.Gray);
-                        tempTB.Width = 730;
+                        tempTB.Width = 765;
                         tempTB.Text = foundModel.TodoText[i];
-                        tempTB.Uid = ""+i;
+                        tempTB.Uid = "" + i;
 
-                        tempCB.Margin = new Thickness(6, 45, 0, 0);
+                        //remBtn.Background = new SolidColorBrush(Colors.Red);
+                        //remBtn.Width = 25;
+                        //remBtn.Height = 25;
+                        //remBtn.Uid = "" + i;
+                        //remBtn.Content = "X";
+
+
+                        tempCB.Margin = new Thickness(6, 45, 15, 0);
                         tempCB.Click += new RoutedEventHandler(checked_changed);
                         tempCB.IsChecked = foundModel.IsChecked[i];
-                        tempCB.Uid = ""+i;
-                        
+                        tempCB.Uid = "" + i;
 
-                        tempSP.Width = 760;
+
+
+                        tempSP.Width = 800;
                         tempSP.Height = 100;
                         tempSP.Orientation = Orientation.Horizontal;
                         tempSP.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -105,7 +94,8 @@ namespace TODOList2000
 
                         tempSP.Children.Add(tempTB);
                         tempSP.Children.Add(tempCB);
-
+                        //tempSP.Children.Add(remBtn);
+                        foundModel.TodoID[i] = i;
                         stackp_main.Items.Add(tempSP);
 
                     }
@@ -118,13 +108,14 @@ namespace TODOList2000
             }
         }
 
-        public void addNewRow() { 
+        public void addNewRow()
+        {
             StackPanel tempSP = new StackPanel();
             CheckBox tempCB = new CheckBox();
             TextBlock tempTB = new TextBlock();
 
             ModelData tempModel = new ModelData();
-            
+
 
             tempCB.Margin = new Thickness(6, 45, 0, 0);
             tempCB.Click += new RoutedEventHandler(checked_changed);
@@ -136,7 +127,7 @@ namespace TODOList2000
             tempSP.Orientation = Orientation.Horizontal;
             tempSP.HorizontalAlignment = HorizontalAlignment.Stretch;
             tempSP.Background = new SolidColorBrush(Colors.DarkGray);
-            
+
             tempTB.Background = new SolidColorBrush(Colors.Gray);
             tempTB.Width = 730;
             tempSP.Children.Add(tempTB);
@@ -149,35 +140,59 @@ namespace TODOList2000
 
 
 
-           
-            
-            
-            
-        }
-     
 
-        public void checked_changed(Object sender, EventArgs args) {
+
+
+
+        }
+
+
+        public void checked_changed(Object sender, EventArgs args)
+        {
             CheckBox tmpCB = (CheckBox)sender;
-            
-            Trace.WriteLine("test: "+tmpCB.Uid.ToString());
+
+            Trace.WriteLine("test: " + tmpCB.Uid.ToString());
         }
 
         private void btn_save_Copy_Click(object sender, RoutedEventArgs e)
         {
-            fr.saveTodoList(modelData,"file.txt");
+            fr.saveTodoList(modelData, "file.txt");
         }
 
 
         private void dp_changedSelectedDate(object sender, RoutedEventArgs e)
         {
-            if (!(lastDatePicked == dp_main.SelectedDate)) {
+            if (!(lastDatePicked == dp_main.SelectedDate))
+            {
                 lastDatePicked = dp_main.SelectedDate;
                 Trace.WriteLine(dp_main.SelectedDate.ToString());
                 stackp_main.Items.Clear();
                 buildTodoUiList();
 
             }
-            
+
+        }
+
+        private void btn_rem_click(object sender, RoutedEventArgs e)
+        {
+            if (stackp_main.SelectedItem != null)
+            {
+                StackPanel tempStack = (StackPanel)stackp_main.SelectedItem;
+                ModelData foundModel = modelData.Find(x => x.TodoDate.ToString("dd/MM/yyyy").Equals(dp_main.SelectedDate.Value.ToString("dd/MM/yyyy")));
+                if (foundModel != null)
+                {
+                    
+                    foundModel.IsChecked.RemoveAt(int.Parse(tempStack.Uid));
+                    foundModel.TodoID.RemoveAt(int.Parse(tempStack.Uid));
+                    foundModel.TodoText.RemoveAt(int.Parse(tempStack.Uid));
+                    stackp_main.Items.Remove(tempStack);
+
+
+                }
+
+
+            }
         }
     }
 }
+
